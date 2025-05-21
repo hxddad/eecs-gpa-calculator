@@ -1,6 +1,6 @@
 {
   "name": "EECS GPA Calculator",
-  "description": "Filters non-EECS courses from GPA calculator",
+  "description": "Filters non-EECS courses from GPA calculator to calculate EECS GPA",
   "version": "1.0",
   "manifest_version": 3,
   "icons": {
