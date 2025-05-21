@@ -6,9 +6,11 @@ function removeNonEECS() {
   const rows = document.querySelectorAll('._calculator_row');
 
   rows.forEach((row) => {
-    // Find the "Subject" and "Course Code" columns in the current row
+    // Subject column (EECS or non-EECS)
     const subjectCell = row.querySelector('td:nth-child(3)');
+    // Course # column (delete the one with 5 in the second digit)
     const courseCodeCell = row.querySelector('td:nth-child(4)');
+
     const subjectText = subjectCell?.textContent.trim();
     const courseCode = courseCodeCell?.textContent.trim();
 
@@ -21,6 +23,7 @@ function removeNonEECS() {
       const removeButton = row.querySelector('button[aria-label="Remove course button"]');
       if (removeButton) {
         console.log("Removing:", subjectText, courseCode);
+        // Click the "Remove course" buttons
         removeButton.dispatchEvent(new MouseEvent("click", {
           bubbles: true,
           cancelable: true,
