@@ -1,31 +1,31 @@
 {
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
+  "name": "EECS GPA Calculator",
+  "description": "Filters non-EECS courses from GPA calculator",
   "version": "1.0",
-"icons": {
+  "manifest_version": 3,
+  "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
     "48": "images/icon-48.png",
     "128": "images/icon-128.png"
   },
-  "manifest_version": 3,
   "action": {
-    "default_popup": "hello.html",
+    "default_popup": "index.html",
     "default_icon": "images/icon-128.png"
-    },
-    "background": {
-        "service_worker": "background.js"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://apps12.sis.yorku.ca/apps/gpa-calculator/"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://apps12.sis.yorku.ca/apps/gpa-calculator/"],
+      "js": ["content.js"]
     }
-    ,
-    "permissions": ["activeTab", "scripting"],
-    "host_permissions": [
-        "https://apps12.sis.yorku.ca/apps/gpa-calculator/"
-    ],
-    "content_scripts": [
-        {
-            "matches": ["https://apps12.sis.yorku.ca/apps/gpa-calculator/"],
-            "js": ["content.js"]
-        }
-    ]
-  }
+  ]
+}
 
