@@ -6,7 +6,7 @@ A Chrome extension that enhances York University's GPA Calculator by filtering o
 
 - Toggle switch to enable/disable the extension
 - Automatically removes non-EECS courses from the calculator
-- Also removes EECS courses with '5' as the second digit (ex. EECS 1520)
+- Keeps EECS courses with '5' as the second digit (ex. EECS 1520)
 - Real-time updates when adding new courses
 - Persists settings across browser sessions
 
