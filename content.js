@@ -10,7 +10,6 @@ function removeNonEECS() {
     const subjectCell = row.querySelector('td:nth-child(3)');
 
     const subjectText = subjectCell?.textContent.trim();
-    const courseCode = courseCodeCell?.textContent.trim();
 
     // Check if it's non-EECS and if there is text in "Subject" column
     if (
@@ -19,7 +18,7 @@ function removeNonEECS() {
       // Find the "Remove course" button in the current row
       const removeButton = row.querySelector('button[aria-label="Remove course button"]');
       if (removeButton) {
-        console.log("Removing:", subjectText, courseCode);
+        console.log("Removing:", subjectText);
         // Click the "Remove course" buttons
         removeButton.dispatchEvent(new MouseEvent("click", {
           bubbles: true,
@@ -27,7 +26,7 @@ function removeNonEECS() {
           view: window,
         }));
       } else {
-        console.warn("No remove button for:", subjectText, courseCode);
+        console.warn("No remove button for:", subjectText);
       }
     }
   });
