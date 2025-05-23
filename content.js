@@ -14,10 +14,9 @@ function removeNonEECS() {
     const subjectText = subjectCell?.textContent.trim();
     const courseCode = courseCodeCell?.textContent.trim();
 
-    // Check if it's non-EECS OR if it's an EECS course with second digit '5'
+    // Check if it's non-EECS and if there is text in "Subject" column
     if (
-      (subjectText && !subjectText.includes("EECS")) || 
-      (courseCode && /^\d{4}$/.test(courseCode) && courseCode[1] === '5')
+      (subjectText && !subjectText.includes("EECS"))
     ) {
       // Find the "Remove course" button in the current row
       const removeButton = row.querySelector('button[aria-label="Remove course button"]');
