@@ -13,10 +13,10 @@ A Chrome extension that enhances York University's GPA Calculator by filtering o
 ## How It Works
 
 1. **Extension Off**: Shows all courses in the GPA calculator
-   ![Extension Off](images/extension-off.png)
+   ![Extension Off](images/ext-off.png)
 
 2. **Extension On**: Filters to show only EECS major courses
-   ![Extension On](images/extension-on.png)
+   ![Extension On](images/ext-on.png)
 
 ## Installation
 
