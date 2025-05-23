@@ -27,7 +27,7 @@ A Chrome extension that enhances York University's GPA Calculator by filtering o
 
 ## Usage
 
-1. Navigate to [York University's GPA Calculator](https://apps12.sis.yorku.ca/apps/gpa-calculator/), (requires Passport York Login for access).
+1. Navigate to [York University's GPA Calculator](https://apps12.sis.yorku.ca/apps/gpa-calculator/) (requires Passport York Login for access)
 2. Click the extension icon in your browser toolbar
 3. Toggle the switch to enable/disable EECS course filtering
 4. The calculator will automatically update to show only relevant EECS courses
