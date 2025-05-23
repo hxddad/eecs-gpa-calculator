@@ -8,8 +8,6 @@ function removeNonEECS() {
   rows.forEach((row) => {
     // Subject column (EECS or non-EECS)
     const subjectCell = row.querySelector('td:nth-child(3)');
-    // Course # column (delete the one with 5 in the second digit)
-    const courseCodeCell = row.querySelector('td:nth-child(4)');
 
     const subjectText = subjectCell?.textContent.trim();
     const courseCode = courseCodeCell?.textContent.trim();
