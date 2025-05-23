@@ -35,7 +35,7 @@ A Chrome extension that enhances York University's GPA Calculator by filtering o
 ## Technical Details
 
 The extension uses:
-- Chrome Storage API for persistence
+- Chrome Storage API to toggle extension on/off
 - MutationObserver for real-time updates
 - Content Scripts for DOM manipulation
 - Chrome Message Passing between popup and content scripts
