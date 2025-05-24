@@ -8,16 +8,22 @@ function removeNonEECS() {
   rows.forEach((row) => {
     // Subject column 
     const subjectCell = row.querySelector('td:nth-child(3)');
+    // Course code column
+    const codeCell = row.querySelector('td:nth-child(4)');
+
     // Extract the text content
     const subjectText = subjectCell?.textContent.trim();
-    // Check if it's non-EECS and if the text is not empty
+    const codeText = codeCell?.textContent.trim();
+
+    // Check if it's non-EECS and if the text is not empty 
+    // (print removed course name and code into console, ex. PHYS 2020)
     if (
       (subjectText && !subjectText.includes("EECS"))
     ) {
       // Find the "Remove course" button in the current row
       const removeButton = row.querySelector('button[aria-label="Remove course button"]');
       if (removeButton) {
-        console.log("Removing:", subjectText);
+        console.log("Removing:", subjectText, codeText);
         // Click the "Remove course" buttons
         removeButton.dispatchEvent(new MouseEvent("click", {
           bubbles: true,
