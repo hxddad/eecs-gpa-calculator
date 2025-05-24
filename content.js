@@ -1,6 +1,17 @@
 let isEnabled = false;
 let observer = null;
 
+function updateOverlineText() {
+  document.querySelectorAll('.text-overline').forEach(el => {
+    if (el.textContent.trim().toUpperCase() === 'SESSIONAL GPA') {
+      el.textContent = 'SESSIONAL EECS GPA';
+    }
+    if (el.textContent.trim().toUpperCase() === 'CUMULATIVE GPA') {
+      el.textContent = 'CUMULATIVE EECS GPA';
+    }
+  });
+}
+
 function removeNonEECS() {
   // Select all rows in the table
   const rows = document.querySelectorAll('._calculator_row');
@@ -41,6 +52,7 @@ function removeNonEECS() {
       }
     }
   });
+  updateOverlineText();
 }
 
 // Listen for messages from popup
