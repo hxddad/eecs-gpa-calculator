@@ -2,6 +2,8 @@
 
 A Chrome extension that enhances York University's GPA Calculator by filtering out non-EECS courses. This allows EECS students to easily calculate their major GPA, without having to manually remove courses.
 
+**NOTE**: It is **currently in review** of the extension being **published** to the Chrome Web Store.
+
 ## Features
 
 - Toggle switch to enable/disable the extension
