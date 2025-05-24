@@ -6,12 +6,11 @@ function removeNonEECS() {
   const rows = document.querySelectorAll('._calculator_row');
 
   rows.forEach((row) => {
-    // Subject column (EECS or non-EECS)
+    // Subject column 
     const subjectCell = row.querySelector('td:nth-child(3)');
-
+    // Extract the text content
     const subjectText = subjectCell?.textContent.trim();
-
-    // Check if it's non-EECS and if there is text in "Subject" column
+    // Check if it's non-EECS and if the text is not empty
     if (
       (subjectText && !subjectText.includes("EECS"))
     ) {
