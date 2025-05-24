@@ -6,14 +6,20 @@ function removeNonEECS() {
   const rows = document.querySelectorAll('._calculator_row');
 
   rows.forEach((row) => {
+    // Faculty column 
+    const FacultyCell = row.querySelector('td:nth-child(2)');
     // Subject column 
     const subjectCell = row.querySelector('td:nth-child(3)');
     // Course code column
     const codeCell = row.querySelector('td:nth-child(4)');
+    // Course credits column
+    const creditsCell = row.querySelector('td:nth-child(5)');
 
     // Extract the text content
     const subjectText = subjectCell?.textContent.trim();
     const codeText = codeCell?.textContent.trim();
+    const FacultyText = FacultyCell?.textContent.trim();
+    const creditsText = creditsCell?.textContent.trim();
 
     // Check if it's non-EECS and if the text is not empty 
     // (print removed course name and code into console, ex. PHYS 2020)
@@ -23,7 +29,7 @@ function removeNonEECS() {
       // Find the "Remove course" button in the current row
       const removeButton = row.querySelector('button[aria-label="Remove course button"]');
       if (removeButton) {
-        console.log("Removing:", subjectText, codeText);
+        console.log("Removing:",  FacultyText + '/' + subjectText, codeText, '(' + creditsText + '.00' + ')');
         // Click the "Remove course" buttons
         removeButton.dispatchEvent(new MouseEvent("click", {
           bubbles: true,
