@@ -1,9 +1,6 @@
 let isEnabled = false;
 let observer = null;
 let debounceTimeout = null;
-let alreadyProcessed = new Set();
-let isRemoving = false;
-
 
 function updateOverlineText() {
   document.querySelectorAll('.text-overline').forEach(el => {
@@ -16,32 +13,44 @@ function updateOverlineText() {
   });
 }
 
-async function removeNonEECS() {
-  if (isRemoving) return; // prevent overlap
-  isRemoving = true;
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
+async function removeNonEECS() {
   const rows = document.querySelectorAll('._calculator_row');
-  
+  const processed = new Set();
+
   for (const row of rows) {
+    // Faculty column 
     const FacultyCell = row.querySelector('td:nth-child(2)');
+    // Subject column 
     const subjectCell = row.querySelector('td:nth-child(3)');
+    // Course code column
     const codeCell = row.querySelector('td:nth-child(4)');
+    // Course credits column
     const creditsCell = row.querySelector('td:nth-child(5)');
 
+    // Extract the text content
     const subjectText = subjectCell?.textContent.trim();
     const codeText = codeCell?.textContent.trim();
     const FacultyText = FacultyCell?.textContent.trim();
     const creditsText = creditsCell?.textContent.trim();
 
+    // Skip rows with missing subject or code
     if (!subjectText || !codeText) continue;
 
+    // Use a unique key for each course (subject + code)
     const courseKey = `${subjectText}|${codeText}`;
-    if (alreadyProcessed.has(courseKey)) continue;
-    alreadyProcessed.add(courseKey);
+    if (processed.has(courseKey)) continue;
+    processed.add(courseKey);
 
-    if (subjectText.toUpperCase().includes("EECS")) {
+    // Check if it's an EECS course (exact match, case-insensitive)
+    if (subjectText.trim().toUpperCase() === "EECS") {
       console.log("Keeping:", FacultyText + '/' + subjectText, codeText, '(' + creditsText + '.00' + ')');
     } else {
+      // Not EECS: log and try to remove
+      console.log("Is removing:", FacultyText + '/' + subjectText, codeText, '(' + creditsText + '.00' + ')');
       const removeButton = row.querySelector('button[aria-label="Remove course button"]');
       if (removeButton) {
         console.log("Removing:", FacultyText + '/' + subjectText, codeText, '(' + creditsText + '.00' + ')');
@@ -54,56 +63,37 @@ async function removeNonEECS() {
         console.log("No remove button for:", FacultyText + '/' + subjectText, codeText, '(' + creditsText + '.00' + ')');
       }
     }
+
+    // Pause before processing the next row
+    await sleep(100); // 100ms pause
   }
-
   updateOverlineText();
-  isRemoving = false;
 }
-  updateOverlineText();
-
 
 function debouncedRemoveNonEECS() {
   if (debounceTimeout) clearTimeout(debounceTimeout);
-  debounceTimeout = setTimeout(removeNonEECS, 250); // increased debounce for safety
+  debounceTimeout = setTimeout(removeNonEECS, 100);
 }
 
-// Improved observer setup
-function setupObserver() {
-  const target = document.querySelector('.calculator-table') || document.body;
-  observer = new MutationObserver(() => {
-    debouncedRemoveNonEECS();
-  });
-  observer.observe(target, {
-    childList: true,
-    subtree: true,
-  });
-}
-
-// Wait until rows are fully available before first run
-function waitForRowsAndRun(callback, timeout = 5000) {
-  const interval = 100;
-  let elapsed = 0;
-  const check = setInterval(() => {
-    const rows = document.querySelectorAll('._calculator_row');
-    if (rows.length > 0 || elapsed >= timeout) {
-      clearInterval(check);
-      callback();
-    }
-    elapsed += interval;
-  }, interval);
-}
-
-// Listener from popup toggle
+// Listen for messages from popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'toggle') {
     isEnabled = request.enabled;
-
+    
     if (isEnabled) {
-      waitForRowsAndRun(() => {
-        removeNonEECS();
-        if (!observer) setupObserver();
-      });
+      removeNonEECS();
+      // Start observing
+      if (!observer) {
+        observer = new MutationObserver(() => {
+          debouncedRemoveNonEECS();
+        });
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true,
+        });
+      }
     } else {
+      // Stop observing
       if (observer) {
         observer.disconnect();
         observer = null;
@@ -112,22 +102,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-// Load-time auto-run
+// Check initial state
 chrome.storage.sync.get('isEnabled', function(data) {
   isEnabled = data.isEnabled || false;
   if (isEnabled) {
-    waitForRowsAndRun(() => {
-      removeNonEECS();
-      setupObserver();
+    removeNonEECS();
+    observer = new MutationObserver(() => {
+      debouncedRemoveNonEECS();
+    });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
     });
   }
-});
-
-// Fallback: run after full window load as well
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    if (isEnabled) {
-      removeNonEECS();
-    }
-  }, 1000);
 });
