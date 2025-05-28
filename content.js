@@ -21,7 +21,6 @@ async function removeNonEECS() {
   isRemoving = true;
 
   const rows = document.querySelectorAll('._calculator_row');
-  console.log("[DEBUG] Found", rows.length, "rows to process");
   
   for (const row of rows) {
     const FacultyCell = row.querySelector('td:nth-child(2)');
