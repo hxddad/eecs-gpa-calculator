@@ -37,20 +37,19 @@ async function removeNonEECS() {
     const FacultyText = FacultyCell?.textContent.trim();
     const creditsText = creditsCell?.textContent.trim();
 
-    // Skip rows with missing subject or code
+    // Skip rows 
     if (!subjectText || !codeText) continue;
-
-    // Use a unique key for each course (subject + code)
+    
     const courseKey = `${subjectText}|${codeText}`;
-    if (processed.has(courseKey)) continue;
-    processed.add(courseKey);
+    if (processed.has(courseKey)){
+      continue;
+    }
 
-    // Check if it's an EECS course (exact match, case-insensitive)
-    if (subjectText.trim().toUpperCase() === "EECS") {
-      console.log("Keeping:", FacultyText + '/' + subjectText, codeText, '(' + creditsText + '.00' + ')');
+    // Check if it's an EECS course
+    if (subjectText.toUpperCase().includes("EECS")) {
+      // console.log("Keeping:", FacultyText + '/' + subjectText, codeText, '(' + creditsText + '.00' + ')');7    processed.add(courseKey);
     } else {
-      // Not EECS: log and try to remove
-      console.log("Is removing:", FacultyText + '/' + subjectText, codeText, '(' + creditsText + '.00' + ')');
+      // Not EECS: try to remove
       const removeButton = row.querySelector('button[aria-label="Remove course button"]');
       if (removeButton) {
         console.log("Removing:", FacultyText + '/' + subjectText, codeText, '(' + creditsText + '.00' + ')');
@@ -65,7 +64,7 @@ async function removeNonEECS() {
     }
 
     // Pause before processing the next row
-    await sleep(100); // 100ms pause
+    await sleep(100); 
   }
   updateOverlineText();
 }
